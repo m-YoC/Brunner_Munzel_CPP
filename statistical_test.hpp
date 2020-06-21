@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <vector>
 #include <cmath>
@@ -28,22 +28,22 @@ namespace test {
 		template<unsigned int LOOP_MAXCOUNT = 100>
 		inline static double regularized_incomplete_beta(double x, double a, double b) {
 
-			/* ’è‹`ˆæ 0 … Re(x) … 1 */
+			/* å®šç¾©åŸŸ 0 â‰¦ Re(x) â‰¦ 1 */
 			if (x < 0. || 1. < x) return std::nan("1");
 
-			/* ibetaŠÖ”‚Í‘ÎÌŒ^Dû‘©‚ª‘¬‚¢•û‚ğ—p‚¢‚é */
+			/* ibetaé–¢æ•°ã¯å¯¾ç§°å‹ï¼åæŸãŒé€Ÿã„æ–¹ã‚’ç”¨ã„ã‚‹ */
 			if (x * (a + b + 2.) > (a + 1.)) {
 				return 1. - regularized_incomplete_beta<LOOP_MAXCOUNT>(1. - x, b, a);
 			}
 
 			/* ribeta(x, a, b) = res1 * res2 */
 
-			/* ”ñ”½•œ•”•ª‚ÌŒvZ ”­U‚ğ”ğ‚¯‚é‚½‚ß‚É‘Î”‚ÅŒvZ‚ğs‚¤
+			/* éåå¾©éƒ¨åˆ†ã®è¨ˆç®— ç™ºæ•£ã‚’é¿ã‘ã‚‹ãŸã‚ã«å¯¾æ•°ã§è¨ˆç®—ã‚’è¡Œã†
 			   res1 = x^a (1-x)^b / [a B(a,b)]
 			*/
 			const double res1 = exp(a * log(x) + b * log(1. - x) - log_beta(a, b)) / a;
 
-			/* ”½•œ•”•ª‚ÌŒvZ
+			/* åå¾©éƒ¨åˆ†ã®è¨ˆç®—
 			   a_(2m+1) = -(a+m)(a+b+m)x / [(a+2m)(a+2m+1)]
 			   a_(2m  ) = m(b-m)x / [(a+2m-1)(a+2m)]
 			   b = 1
@@ -68,7 +68,7 @@ namespace test {
 				const double m1 = i;
 				const double a1 = -(a + m1) * (a + b + m1) * x / ((a + 2. * m1 ) * (a + 2. * m1 + 1.));
 
-				/*‘Q‰»®*/
+				/*æ¼¸åŒ–å¼*/
 				P[n] = P[n - 1] + a1 * P[n - 2];
 				Q[n] = Q[n - 1] + a1 * Q[n - 2];
 
@@ -76,7 +76,7 @@ namespace test {
 				const double m2 = i + 1;
 				const double a2 = m2 * (b - m2) * x / ((a + 2. * m2 - 1.) * (a + 2. * m2));
 
-				/*‘Q‰»®*/
+				/*æ¼¸åŒ–å¼*/
 				P[n + 1] = P[n] + a2 * P[n - 1];
 				Q[n + 1] = Q[n] + a2 * Q[n - 1];
 
@@ -90,12 +90,12 @@ namespace test {
 
 	class cdf {
 	public:
-		/*³‹K•ª•z@—İÏ•ª•zŠÖ”*/
+		/*æ­£è¦åˆ†å¸ƒã€€ç´¯ç©åˆ†å¸ƒé–¢æ•°*/
 		static double n_cdf(double t) {
 			return 0.5 * (1.0 + std::erf(t * 0.70710678118654752440084));
 		}
 
-		/*t•ª•z@—İÏ•ª•zŠÖ”*/
+		/*tåˆ†å¸ƒã€€ç´¯ç©åˆ†å¸ƒé–¢æ•°*/
 		static double t_cdf(double t, double v) {
 			const double y = sqrt(t * t + v);
 			const double x = (t + y) / (2.0 * y);
@@ -136,7 +136,7 @@ namespace test {
 			return sum / (scalar)(x.size() - ddof);
 		}
 
-		/*vector‚Ìmergeƒƒ\ƒbƒh*/
+		/*vectorã®mergeãƒ¡ã‚½ãƒƒãƒ‰*/
 		template<typename type>
 		static std::vector<type> merge(std::vector<std::vector<type>*> elems) {
 
@@ -155,7 +155,7 @@ namespace test {
 	};
 
 
-	/* ddof = 0 [•W–{•ªU] / 1 [•s•Î•ªU] */
+	/* ddof = 0 [æ¨™æœ¬åˆ†æ•£] / 1 [ä¸ååˆ†æ•£] */
 	template<typename scalar>
 	class welch_t : public test_base<scalar> {
 	public:
@@ -232,9 +232,9 @@ namespace test {
 			}
 			S2y /= (scalar)(y.size() - 1);
 
-			/*2‚Â‚Ì•ª•z‚ªŠ®‘S•ª—£‚µ‚Ä‚¢‚é*/
+			/*2ã¤ã®åˆ†å¸ƒãŒå®Œå…¨åˆ†é›¢ã—ã¦ã„ã‚‹*/
 			if (S2x == 0 && S2y == 0) {
-				/*Œİ‚¢‚ÌÅ‰‚Ì’l‚Ì‘å¬‚Å•]‰¿‚µ‚Ä‚µ‚Ü‚¤*/
+				/*äº’ã„ã®æœ€åˆã®å€¤ã®å¤§å°ã§è©•ä¾¡ã—ã¦ã—ã¾ã†*/
 				if (x[0] < y[0]) {
 					p = static_cast<scalar>(1.0);
 				}
@@ -291,11 +291,11 @@ namespace test {
 			});
 
 			for (int i = 0; i < _x.size();) {
-				/*“¯‡ˆÊ‚Ì‚à‚Ì‚Å•½‹Ï‚ğæ‚é*/
+				/*åŒé †ä½ã®ã‚‚ã®ã§å¹³å‡ã‚’å–ã‚‹*/
 				int c = 0;
-				/*ˆÈ~‚Ìƒf[ƒ^‚Å“¯’l‚Ì”‚ğ”‚¦‚é*/
+				/*ä»¥é™ã®ãƒ‡ãƒ¼ã‚¿ã§åŒå€¤ã®æ•°ã‚’æ•°ãˆã‚‹*/
 				for (int j = i; j < _x.size(); ++j) {
-					/*©g‚Í•K‚¸ŠÜ‚Ü‚ê‚é*/
+					/*è‡ªèº«ã¯å¿…ãšå«ã¾ã‚Œã‚‹*/
 					if (_x[j].first == _x[i].first) {
 						c++;
 					}
@@ -304,8 +304,8 @@ namespace test {
 					}
 				}
 				/*
-				{ ƒ°(n + n+1 + n+2 + ... + n+c-1) } / c
-				= n + ƒ°(0 + 1 + 2 + 3 + ... + c-1) / c
+				{ Î£(n + n+1 + n+2 + ... + n+c-1) } / c
+				= n + Î£(0 + 1 + 2 + 3 + ... + c-1) / c
 				= n + c(c-1) / 2c
 				= n + (c-1) / 2
 				*/
@@ -327,12 +327,12 @@ namespace test {
 			return res / (scalar)size;
 		}
 
-		/*greater‚Ì‚Æ‚«‚Ìp’l*/
+		/*greaterã®ã¨ãã®på€¤*/
 		scalar calcP_normal(scalar wbfn) {
 			return cdf::n_cdf(wbfn);
 		}
 
-		/*greater‚Ì‚Æ‚«‚Ìp’l*/
+		/*greaterã®ã¨ãã®på€¤*/
 		scalar calcP_t(scalar wbfn, scalar nx, scalar S2x, scalar ny, scalar S2y) {
 			scalar df = std::pow(nx * S2x + ny * S2y, 2) / (std::pow(nx * S2x, 2) / (nx - static_cast<scalar>(1.0)) + std::pow(ny * S2y, 2) / (ny - static_cast<scalar>(1.0)));
 			return cdf::t_cdf(wbfn, df);
