@@ -16,5 +16,5 @@ printf("g: %lf, l:%lf, b:%lf\n", res1.pvalue_greater(), res1.pvalue_less(), res1
 /* welch t test */  
 test::test_base<double>& res2 = test::welch_t<double>(x, y);  
 printf("g: %lf, l:%lf, b:%lf\n", res2.pvalue_greater(), res2.pvalue_less(), res2.pvalue_both());
-```(
+```
 
