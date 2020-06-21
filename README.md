@@ -1,5 +1,5 @@
 # Brunner_Munzel_CPP
- C++ Statistical Tests: Brunner Munzel & Welch t
+ C++ header only library of statistical tests; Brunner Munzel & Welch t 
 
 
 ## Usage
