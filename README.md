@@ -1,5 +1,5 @@
 # Brunner_Munzel_CPP
- C++ header only library of statistical tests; Brunner Munzel & Welch t  
+ C++ header only library of statistical tests; Brunner Munzel & Welch t.  
  comments of header are written in Japanese, sorry.
 
 ## Usage
